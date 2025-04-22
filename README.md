@@ -1,10 +1,10 @@
 # scsarchive
 
-[![PyPI version](https://img.shields.io/pypi/v/scsarchive.svg?color=green)](https://pypi.org/project/scsarchive/)
+[![PyPI version](https://img.shields.io/pypi/v/scsarchive.svg?color=green&cache-bust=3)](https://pypi.org/project/scsarchive/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/scsarchive)](https://pypi.org/project/scsarchive/)
 
-`scsarchive` is a simple Python utility that registers the `.scs` archive format — an uncompressed `.zip` format used by Euro Truck Simulator 2 and American Truck Simulator mods — for use with Python’s `shutil.make_archive()` function.
+`scsarchive` is a simple Python utility that registers the `.scs` archive format — an uncompressed `.zip` format used by Euro Truck Simulator 2 and American Truck Simulator mods.
 
 ## 🚀 Features
 
@@ -22,15 +22,14 @@ pip install scsarchive
 
 ```python
 import scsarchive
-scsarchive.register_scs_format()
-
-import shutil
-shutil.make_archive("mymod", "scs", root_dir="mod_files")
+from scsarchive import make_scs
+make_scs(base_name, root_dir, base_dir)
 ```
 
-## 🧼 Optional Cleanup
+### 🧼 Optional Functions
 
 ```python
+scsarchive.register_scs_format()
 scsarchive.unregister_scs_format()
 ```
 
@@ -38,7 +37,19 @@ scsarchive.unregister_scs_format()
 
 ## 🌟 Why I Made This
 
-Coming soon — a personal note from the author.
+I wanted a more efficient way to update my ETS2 mods without having to 
+
+1. manually zip the directory,
+2. set the name and compression,
+3. rename from ".zip" to ".scs" after creation,
+4. delete the old one in my mods directory,
+5. copy and paste from my working directory to my mods directory...
+
+EVERY. TIME.
+
+No more nonesense.
+
+There is now an easier way.
 
 ---
 

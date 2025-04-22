@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scsarchive"
-version = "1.0.4"
+version = "1.0.5"
 description = "A Python archive format plugin for creating uncompressed SCS (Euro Truck Simulator 2 mod) archives."
 readme = "README.md"
 license = {text = "MIT"}

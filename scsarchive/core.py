@@ -5,7 +5,9 @@ import os
 import shutil
 import zipfile as scsfile
 
-def make_scsfile(base_name, base_dir, verbose=0, dry_run=0, owner=None, group=None, logger=None):
+def _make_scsfile(base_name, base_dir, verbose=0, dry_run=0, owner=None, group=None, logger=None):
+    """#### The function defining SCS archive format registration.
+    ##### Only for use by `register_scs_format()`"""
     scs_filename = base_name + ".scs"
     archive_dir = os.path.dirname(base_name)
 
@@ -40,10 +42,44 @@ def make_scsfile(base_name, base_dir, verbose=0, dry_run=0, owner=None, group=No
     return scs_filename
 
 def register_scs_format():
+    """Registers `scs` as an archive format in `shutil.get_archive_formats()`, if not already present."""
     # Avoid double registration
     if "scs" not in shutil.get_archive_formats():
-        shutil.register_archive_format("scs", make_scsfile, description="Uncompressed SCS file")
+        shutil.register_archive_format("scs", _make_scsfile, description="Uncompressed SCS file")
 
 def unregister_scs_format():
+    """Removes `scs` from the registered archive formats in `shutil.get_archive_formats()`, if present."""
     if "scs" in shutil.get_archive_formats():
         shutil.unregister_archive_format("scs")
+
+
+def make_scs(base_name: str,
+             root_dir: str,
+             base_dir: str,
+             verbose: bool = bool(0),
+             dry_run: bool = bool(0)
+            ) -> str :
+    """## Create an SCS archive file.
+
+### `base_name`:
+The name of the file to create, minus any format-specific extension. This is required input.
+
+### `root_dir`:
+The directory that will be the root directory of the archive. This is required input.
+
+### `base_dir`:
+The directory where we start archiving from. This is required input.
+
+#### `verbose`:
+toggles detailed output in the console; set to `True` for detailed output. Defaults to `False`.
+
+#### `dry_run`:
+toggles creation of the SCS archive; set to `True` for testing purposes. Defaults to `False`.
+    """
+    if "scs" not in shutil.get_archive_formats():
+        register_scs_format()
+        shutil.make_archive(base_name, 'scs', root_dir, base_dir, verbose, dry_run, owner=None, group=None, logger=None)
+        unregister_scs_format()
+    else:
+        shutil.make_archive(base_name, 'scs', root_dir, base_dir, verbose, dry_run, owner=None, group=None, logger=None)
+        
